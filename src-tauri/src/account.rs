@@ -198,7 +198,7 @@ async fn login(
         anisette_server
     };
 
-    let mut account = AppleAccount::builder(&email.to_lowercase())
+    let mut account = AppleAccount::builder(&email.trim().to_lowercase())
         .anisette_provider(
             RemoteV3AnisetteProvider::default()?
                 .set_serial_number("0".to_string())
@@ -212,7 +212,7 @@ async fn login(
                 }))
                 .set_url(&anisette_url),
         )
-        .login(password, Box::new(tfa_closure))
+        .login(password.trim(), Box::new(tfa_closure))
         .await?;
 
     debug!("Logged in");
